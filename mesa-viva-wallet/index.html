@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#19231d">
+  <title>Mesa Viva · Tarjeta de fidelización</title>
+  <meta name="description" content="Tarjeta digital del Club Mesa Viva: suma visitas y desbloquea recompensas.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <section class="hero"><nav><a href="#" class="brand"><span>MV</span> Mesa Viva</a><a href="#mi-tarjeta" class="nav-link">Mi tarjeta</a></nav><div class="hero-copy"><p class="kicker">CLUB MESA VIVA</p><h1>Cada visita merece algo especial.</h1><p class="lead">Escanea, suma visitas y disfruta recompensas pensadas para volver a compartir mesa.</p><a href="#registro" class="primary-button">Crear mi tarjeta</a></div><div class="hero-note"><span>Madrid</span><span>Producto de temporada</span></div></section>
+  <section class="experience" id="mi-tarjeta"><div class="section-intro"><p class="kicker">TU EXPERIENCIA</p><h2>Una tarjeta. Tres formas de disfrutar.</h2></div><div class="workspace">
+    <article class="wallet-card"><div class="card-top"><span class="mini-brand">MESA<br>VIVA</span><span class="member">SOCIO · 0248</span></div><div class="card-center"><p>Hola,</p><strong id="card-name">Vincenzo</strong></div><div class="visit-row" id="visit-row"></div><div class="card-bottom"><span id="visit-count">4 visitas</span><span id="next-reward">Próximo premio: Entrante para compartir</span></div></article>
+    <article class="qr-panel"><div><p class="kicker">EN EL RESTAURANTE</p><h3>Escanea para abrir tu tarjeta</h3><p>El código abre la página oficial del Club Mesa Viva directamente en tu móvil.</p></div><div class="qr-frame"><img src="mesa-viva-qr.svg" alt="Código QR de la tarjeta Mesa Viva"></div><button class="demo-button" id="add-visit" type="button">Simular una visita</button></article>
+  </div></section>
+  <section class="rewards"><div class="section-intro"><p class="kicker">RECOMPENSAS</p><h2>Cuanto más vuelves, mejor sabe.</h2></div><div class="reward-grid"><article data-visits="3"><span>03</span><div><small></small><h3>Café de la casa</h3></div></article><article data-visits="6"><span>06</span><div><small></small><h3>Entrante para compartir</h3></div></article><article data-visits="10"><span>10</span><div><small></small><h3>Cena para dos</h3></div></article></div></section>
+  <section class="registration" id="registro"><div class="registration-copy"><p class="kicker">ÚNETE AL CLUB</p><h2>Tu próxima recompensa empieza hoy.</h2><p>Regístrate gratis. No necesitas descargar ninguna aplicación.</p></div><form id="register-form"><label>Nombre<input id="name" value="Vincenzo" placeholder="Tu nombre" required></label><label>Correo electrónico<input id="email" type="email" placeholder="nombre@correo.com" required></label><label class="check"><input type="checkbox" required> Acepto recibir mi tarjeta digital y las condiciones del club.</label><button type="submit" class="primary-button">Crear tarjeta gratuita</button></form><div class="success-card" id="success" hidden><span>✓</span><h3>Tu tarjeta está preparada</h3><p id="success-copy"></p><button class="wallet-button" id="google-wallet" type="button">Añadir a Google Wallet</button><p class="wallet-note" id="wallet-note" hidden>El pase de Wallet necesita la firma oficial del restaurante. Tu tarjeta web ya está activa y puedes guardarla en la pantalla de inicio.</p></div></section>
+  <footer><a href="#" class="brand"><span>MV</span> Mesa Viva</a><p>Proyecto demostrativo de fidelización para restaurantes.</p></footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
