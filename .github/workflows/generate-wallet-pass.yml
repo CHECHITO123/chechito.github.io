@@ -1,0 +1,35 @@
+name: Generar pase de Google Wallet
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Instalar herramientas
+        run: npm install --no-save jsonwebtoken qrcode
+      - name: Generar enlace firmado y QR
+        env:
+          GOOGLE_WALLET_CREDENTIALS: ${{ secrets.GOOGLE_WALLET_CREDENTIALS }}
+        run: node scripts/generate-wallet-link.mjs
+      - name: Publicar la configuración
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mesa-viva-wallet/wallet-config.js
+          if git diff --cached --quiet; then
+            echo "No hay cambios"
+          else
+            git commit -m "Activar pase firmado de Google Wallet"
+            git push
+          fi
