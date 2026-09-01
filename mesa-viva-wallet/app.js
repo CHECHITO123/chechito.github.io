@@ -13,5 +13,18 @@ function render(){
 nameInput.addEventListener("input",()=>{cardName.textContent=nameInput.value.trim()||"Invitado"});
 document.querySelector("#add-visit").addEventListener("click",()=>{visits=Math.min(10,visits+1);localStorage.setItem("mesa-viva-visits",visits);render()});
 document.querySelector("#register-form").addEventListener("submit",event=>{event.preventDefault();cardName.textContent=nameInput.value.trim();event.currentTarget.hidden=true;document.querySelector("#success-copy").textContent=`Hola, ${nameInput.value.trim()}. Tu tarjeta digital ya está activa en este dispositivo.`;document.querySelector("#success").hidden=false;localStorage.setItem("mesa-viva-name",nameInput.value.trim())});
-document.querySelector("#google-wallet").addEventListener("click",()=>{document.querySelector("#wallet-note").hidden=false});
+const walletUrl=window.MESA_VIVA_WALLET_URL||"";
+const walletReady=/^https:\/\/pay\.google\.com\/gp\/v\/save\//.test(walletUrl);
+const walletButton=document.querySelector("#google-wallet");
+walletButton.addEventListener("click",()=>{
+  if(walletReady){window.location.assign(walletUrl);return}
+  document.querySelector("#wallet-note").hidden=false;
+});
+if(walletReady){
+  const qr=document.querySelector("#wallet-qr"),link=document.querySelector("#wallet-link");
+  if(window.MESA_VIVA_WALLET_QR)qr.src=window.MESA_VIVA_WALLET_QR;
+  link.href=walletUrl;link.textContent="Añadir a Google Wallet sin escanear";
+  document.querySelector("#qr-title").textContent="Escanea para añadirla a Google Wallet";
+  document.querySelector("#qr-description").textContent="El código abre el pase oficial de Mesa Viva en Google Wallet.";
+}
 const savedName=localStorage.getItem("mesa-viva-name");if(savedName){nameInput.value=savedName;cardName.textContent=savedName}render();
