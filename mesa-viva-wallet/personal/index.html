@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#19231d" />
+    <title>Control de visitas · Mesa Viva</title>
+    <style>
+      :root {
+        --ink: #19231d;
+        --olive: #314734;
+        --lime: #d6e65a;
+        --cream: #f4f0e7;
+        --paper: #fffdf8;
+        --line: #d9d9cd;
+        --red: #8d3528;
+        --muted: #687069;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: Arial, sans-serif;
+      }
+      main {
+        width: min(620px, 100%);
+        margin: auto;
+        padding: 22px 18px 48px;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font: 20px Georgia;
+      }
+      .brand i {
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--ink);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font: 700 12px Arial;
+      }
+      .badge {
+        background: var(--ink);
+        color: #fff;
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--olive);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+      }
+      h1 {
+        font: 500 clamp(36px, 10vw, 54px) / 1 Georgia;
+        margin: 0 0 12px;
+      }
+      .lead {
+        color: var(--muted);
+        line-height: 1.55;
+        margin-bottom: 24px;
+      }
+      .scanner,
+      .customer {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .scanner h2,
+      .customer h2 {
+        font: 500 26px Georgia;
+        margin: 0 0 8px;
+      }
+      .scanner p,
+      .customer p {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .camera {
+        width: 100%;
+        aspect-ratio: 4/3;
+        background: var(--ink);
+        border-radius: 18px;
+        overflow: hidden;
+        margin: 16px 0;
+        display: none;
+        position: relative;
+      }
+      .camera video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .camera:after {
+        content: "";
+        position: absolute;
+        inset: 18%;
+        border: 2px solid var(--lime);
+        border-radius: 14px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+      }
+      .row input {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 14px 17px;
+        font-size: 16px;
+      }
+      .button {
+        border: 0;
+        border-radius: 999px;
+        padding: 14px 18px;
+        font-weight: 800;
+        font-size: 15px;
+        background: var(--lime);
+        color: var(--ink);
+        cursor: pointer;
+      }
+      .button.dark {
+        width: 100%;
+        background: var(--ink);
+        color: #fff;
+        margin-top: 12px;
+      }
+      .button.remove {
+        background: #f1c8bd;
+        color: var(--red);
+      }
+      .customer[hidden] {
+        display: none;
+      }
+      .customer-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .customer-head strong {
+        font-size: 13px;
+        letter-spacing: 0.1em;
+      }
+      .count {
+        font: 500 64px/1 Georgia;
+        margin: 24px 0 6px;
+        color: var(--olive);
+      }
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .status {
+        min-height: 22px;
+        margin: 12px 3px 0;
+        color: var(--olive) !important;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .note {
+        font-size: 12px !important;
+        margin: 16px 2px 0;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
+        transform: translate(-50%, 20px);
+        background: var(--ink);
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        opacity: 0;
+        transition: 0.2s;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 460px) {
+        .row {
+          grid-template-columns: 1fr;
+        }
+        .row .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="top">
+        <div class="brand"><i>MV</i> Mesa Viva</div>
+        <span class="badge">PERSONAL</span>
+      </header>
+      <p class="eyebrow">CONTROL DE FIDELIZACIÓN</p>
+      <h1>Escanear tarjeta</h1>
+      <p class="lead">
+        Escanea el QR del cliente. Solo el personal puede añadir o corregir
+        visitas.
+      </p>
+      <section class="scanner">
+        <h2>Identificar al cliente</h2>
+        <p>Usa la cámara o introduce su código de socio.</p>
+        <div class="camera" id="camera">
+          <video id="video" playsinline muted></video>
+        </div>
+        <div class="row">
+          <input
+            id="member-input"
+            value="MV-0248"
+            autocomplete="off"
+            aria-label="Código de socio"
+          /><button class="button" id="search" type="button">
+            Abrir tarjeta
+          </button>
+        </div>
+        <button class="button dark" id="scan" type="button">
+          Escanear QR con la cámara
+        </button>
+        <p class="status" id="scan-status" role="status"></p>
+      </section>
+      <section class="customer" id="customer" hidden>
+        <div class="customer-head">
+          <div>
+            <h2 id="customer-name">Vincenzo</h2>
+            <p>Cliente identificado</p>
+          </div>
+          <strong id="member-label">MV-0248</strong>
+        </div>
+        <div class="count" id="count">0</div>
+        <p id="count-label">visitas registradas</p>
+        <div class="actions">
+          <button class="button" id="add" type="button">+ Añadir visita</button
+          ><button class="button remove" id="remove" type="button">
+            − Corregir visita
+          </button>
+        </div>
+        <p class="note">
+          Los cambios se aplican a la tarjeta del socio identificado.
+        </p>
+      </section>
+    </main>
+    <div class="toast" id="toast">Visitas actualizadas</div>
+    <script>
+      let activeMember = "";
+      let visits = 0;
+      let stream = null;
+      let scanning = false;
+      const customer = document.querySelector("#customer"),
+        input = document.querySelector("#member-input"),
+        status = document.querySelector("#scan-status"),
+        toast = document.querySelector("#toast");
+      function normalize(value) {
+        const match = String(value)
+          .toUpperCase()
+          .match(/MV[- ]?\d{4}/);
+        return match ? match[0].replace(" ", "-") : "";
+      }
+      function key(member) {
+        return `mesa-viva-${member}-visits-v2`;
+      }
+      function openMember(raw) {
+        const member = normalize(raw);
+        if (!member) {
+          status.textContent =
+            "Código no reconocido. Usa un código como MV-0248.";
+          return;
+        }
+        activeMember = member;
+        visits = Math.max(
+          0,
+          Math.min(10, Number(localStorage.getItem(key(member)) || 0)),
+        );
+        document.querySelector("#member-label").textContent = member;
+        document.querySelector("#customer-name").textContent =
+          localStorage.getItem(`mesa-viva-${member}-name-v2`) || "Vincenzo";
+        customer.hidden = false;
+        status.textContent = "Tarjeta identificada correctamente.";
+        render();
+        stopCamera();
+      }
+      function render() {
+        document.querySelector("#count").textContent = visits;
+        document.querySelector("#count-label").textContent =
+          visits === 1 ? "visita registrada" : "visitas registradas";
+      }
+      function save(delta) {
+        if (!activeMember) return;
+        visits = Math.max(0, Math.min(10, visits + delta));
+        localStorage.setItem(key(activeMember), String(visits));
+        render();
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1400);
+      }
+      async function startCamera() {
+        if (!navigator.mediaDevices?.getUserMedia) {
+          status.textContent =
+            "La cámara no está disponible en este navegador. Introduce el código manualmente.";
+          return;
+        }
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "environment" } },
+          });
+          document.querySelector("#video").srcObject = stream;
+          await document.querySelector("#video").play();
+          document.querySelector("#camera").style.display = "block";
+          status.textContent = "Apunta al QR del cliente.";
+          if ("BarcodeDetector" in window) {
+            scanning = true;
+            detect();
+          } else {
+            status.textContent =
+              "La cámara está abierta. Este navegador no lee QR automáticamente; introduce el código que aparece debajo del QR.";
+          }
+        } catch {
+          status.textContent =
+            "No se pudo abrir la cámara. Revisa el permiso o introduce el código manualmente.";
+        }
+      }
+      async function detect() {
+        if (!scanning) return;
+        try {
+          const detector = new BarcodeDetector({ formats: ["qr_code"] });
+          const codes = await detector.detect(document.querySelector("#video"));
+          if (codes[0]) {
+            openMember(codes[0].rawValue);
+            return;
+          }
+        } catch {}
+        requestAnimationFrame(detect);
+      }
+      function stopCamera() {
+        scanning = false;
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+          stream = null;
+        }
+        document.querySelector("#camera").style.display = "none";
+      }
+      document
+        .querySelector("#search")
+        .addEventListener("click", () => openMember(input.value));
+      document.querySelector("#scan").addEventListener("click", startCamera);
+      document.querySelector("#add").addEventListener("click", () => save(1));
+      document
+        .querySelector("#remove")
+        .addEventListener("click", () => save(-1));
+      window.addEventListener("beforeunload", stopCamera);
+    </script>
+  </body>
+</html>
