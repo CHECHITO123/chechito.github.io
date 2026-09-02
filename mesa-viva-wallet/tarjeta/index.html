@@ -177,6 +177,31 @@
         margin-top: 9px;
         letter-spacing: 0.12em;
       }
+      .wallet-area {
+        margin: 0 0 26px;
+        padding: 15px;
+        border: 1px solid #ffffff33;
+        border-radius: 18px;
+        background: #ffffff12;
+        text-align: center;
+      }
+      .wallet-button {
+        width: 100%;
+        border: 0;
+        border-radius: 999px;
+        background: #111;
+        color: #fff;
+        padding: 15px 20px;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+      }
+      .wallet-area p {
+        margin: 10px 4px 0;
+        color: #dbe4da;
+        font-size: 12px;
+        line-height: 1.4;
+      }
       .rewards {
         background: var(--paper);
         color: var(--ink);
@@ -283,6 +308,15 @@
           <strong>MV-0248</strong>
         </div>
       </section>
+      <section class="wallet-area">
+        <button class="wallet-button" id="add-wallet" type="button">
+          Añadir a Google Wallet
+        </button>
+        <p id="wallet-status">
+          La tarjeta web está activa. Google Wallet se habilitará al conectar la
+          firma oficial.
+        </p>
+      </section>
       <section class="rewards">
         <h2>Mis recompensas</h2>
         <div class="reward" data-n="3">
@@ -299,6 +333,7 @@
         </div>
       </section>
     </main>
+    <script src="../wallet-config.js"></script>
     <script>
       const memberId = "MV-0248";
       const rewards = [
@@ -342,6 +377,18 @@
           visits = Math.max(0, Math.min(10, Number(event.newValue) || 0));
           render();
         }
+      });
+      const walletUrl = window.MESA_VIVA_WALLET_URL || "";
+      const walletReady = /^https:\/\/pay\.google\.com\/gp\/v\/save\//.test(
+        walletUrl,
+      );
+      document.querySelector("#add-wallet").addEventListener("click", () => {
+        if (walletReady) {
+          window.location.assign(walletUrl);
+          return;
+        }
+        document.querySelector("#wallet-status").textContent =
+          "El pase de Google Wallet todavía necesita la firma oficial del restaurante.";
       });
       render();
     </script>

@@ -54,9 +54,29 @@ document.querySelector("#register-form").addEventListener("submit", (event) => {
   localStorage.setItem(nameKey, name);
 });
 
-document.querySelector("#google-wallet").addEventListener("click", () => {
+const walletUrl = window.MESA_VIVA_WALLET_URL || "";
+const walletReady = /^https:\/\/pay\.google\.com\/gp\/v\/save\//.test(
+  walletUrl,
+);
+const walletButton = document.querySelector("#google-wallet");
+walletButton.addEventListener("click", () => {
+  if (walletReady) {
+    window.location.assign(walletUrl);
+    return;
+  }
   document.querySelector("#wallet-note").hidden = false;
 });
+if (walletReady) {
+  const qr = document.querySelector("#wallet-qr");
+  const link = document.querySelector("#wallet-link");
+  if (window.MESA_VIVA_WALLET_QR) qr.src = window.MESA_VIVA_WALLET_QR;
+  link.href = walletUrl;
+  link.textContent = "Añadir a Google Wallet sin escanear";
+  document.querySelector("#qr-title").textContent =
+    "Escanea para añadirla a Google Wallet";
+  document.querySelector("#qr-description").textContent =
+    "El código abre el pase oficial de Mesa Viva en Google Wallet.";
+}
 
 window.addEventListener("storage", (event) => {
   if (event.key === visitsKey) {
