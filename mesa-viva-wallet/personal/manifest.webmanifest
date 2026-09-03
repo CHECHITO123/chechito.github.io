@@ -1,0 +1,12 @@
+{
+  "name": "Mesa Viva Scan",
+  "short_name": "MV Scan",
+  "description": "Aplicación del personal para escanear tarjetas y registrar visitas.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f0e7",
+  "theme_color": "#19231d",
+  "orientation": "any",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
