@@ -10,6 +10,7 @@
       content="Tarjeta digital del Club Mesa Viva: suma visitas y desbloquea recompensas."
     />
     <link rel="stylesheet" href="styles.css" />
+  <style>.registered-card{margin:22px 0;padding:22px;border-radius:22px;background:linear-gradient(135deg,#21362a,#445d3c);color:#fff;display:grid;grid-template-columns:1fr 112px;gap:18px;align-items:center;text-align:left}.registered-card small,.registered-card em{display:block;color:#d9e3d7;font-style:normal}.registered-card strong{display:block;margin:10px 0 6px;font:500 30px Georgia}.registered-card img{width:112px;height:112px;padding:6px;background:#fff;border-radius:10px}.card-link{display:block;margin:0 0 10px;border:1px solid #314734;border-radius:10px;padding:13px 20px;color:#314734;font-weight:800;text-decoration:none}.success-card .wallet-button{width:100%}@media(max-width:600px){.success-card{padding:24px}.registered-card{grid-template-columns:1fr}.registered-card img{margin:auto}}</style>
   </head>
   <body>
     <main>
@@ -135,14 +136,10 @@
           <span>✓</span>
           <h3>Tu tarjeta está preparada</h3>
           <p id="success-copy"></p>
-          <button class="wallet-button" id="google-wallet" type="button">
-            Añadir a Google Wallet
-          </button>
-          <p class="wallet-note" id="wallet-note" hidden>
-            El pase de Wallet necesita la firma oficial del restaurante. Tu
-            tarjeta web ya está activa y puedes guardarla en la pantalla de
-            inicio.
-          </p>
+          <div class="registered-card"><div><small>CLUB MESA VIVA</small><strong id="registered-name">Vincenzo</strong><em>0 visitas · Socio MV-0248</em></div><img src="tarjeta/member-0248.svg" alt="Código QR de la tarjeta MV-0248"></div>
+          <a class="card-link" href="tarjeta/">Ver mi tarjeta</a>
+          <button class="wallet-button" id="google-wallet" type="button">Añadir a Google Wallet</button>
+          <p class="wallet-note" id="wallet-note" hidden>Tu tarjeta ya está creada. El pase de Google Wallet se activará al conectar la firma oficial del restaurante.</p>
         </div>
       </section>
       <footer>
