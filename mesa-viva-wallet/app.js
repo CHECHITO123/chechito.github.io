@@ -47,9 +47,13 @@ document.querySelector("#register-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const name = nameInput.value.trim() || "Invitado";
   cardName.textContent = name;
+  visits = 0;
+  localStorage.setItem(visitsKey, "0");
+  render();
   event.currentTarget.hidden = true;
   document.querySelector("#success-copy").textContent =
-    `Hola, ${name}. Tu tarjeta digital ya está activa en este dispositivo.`;
+    `Hola, ${name}. Tu tarjeta digital ya está activa con 0 visitas.`;
+  document.querySelector("#registered-name").textContent = name;
   document.querySelector("#success").hidden = false;
   localStorage.setItem(nameKey, name);
 });
