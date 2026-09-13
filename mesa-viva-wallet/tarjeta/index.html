@@ -14,9 +14,10 @@
     .hello{margin:42px 0 26px}.hello small{display:block;color:var(--muted);font-size:14px}.hello strong{display:block;margin-top:5px;font:500 clamp(30px,9vw,45px) Georgia,serif}
     .dots{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:0 0 25px}.dot{aspect-ratio:1;border:1px solid #ffffff70;border-radius:50%;background:#ffffff12;color:#dfe7df;display:grid;place-items:center;font-weight:800;cursor:pointer;transition:.16s}.dot.filled{background:var(--lime);border-color:var(--lime);color:var(--ink);transform:scale(1.04)}.dot:focus-visible{outline:3px solid #fff;outline-offset:3px}
     .bottom{align-items:end}.count{font-weight:800}.next{max-width:230px;text-align:right;color:var(--muted);font-size:13px;line-height:1.4}
+    .qr-block{display:grid;grid-template-columns:132px 1fr;align-items:center;gap:18px;margin-top:24px;padding-top:24px;border-top:1px solid #ffffff35}.qr-block img{width:132px;height:132px;padding:8px;border-radius:14px;background:#fff}.qr-copy small{display:block;color:var(--lime);font-size:11px;font-weight:800;letter-spacing:.13em}.qr-copy strong{display:block;margin:7px 0;font-size:19px}.qr-copy p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
     .hint{margin:18px 0 0;padding:15px 17px;border:1px solid #ffffff30;border-radius:16px;background:#ffffff12;text-align:center;font-size:14px;line-height:1.45}
     .links{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.links a{padding:14px;border-radius:999px;text-align:center;text-decoration:none;font-weight:800}.register{background:var(--lime);color:var(--ink)}.scanner{border:1px solid #ffffff70;color:#fff}
-    @media(max-width:480px){body{padding:14px}.card{padding:23px}.dots{gap:9px}.links{grid-template-columns:1fr}}
+    @media(max-width:480px){body{padding:14px}.card{padding:23px}.dots{gap:9px}.links{grid-template-columns:1fr}.qr-block{grid-template-columns:112px 1fr}.qr-block img{width:112px;height:112px}}
   </style>
 </head>
 <body>
@@ -27,6 +28,7 @@
       <div class="hello"><small>Hola,</small><strong id="name">Invitado</strong></div>
       <div class="dots" id="dots" aria-label="Puntos de fidelización"></div>
       <div class="bottom"><span class="count" id="count">0 visitas</span><span class="next" id="next">Próximo premio: Café de la casa</span></div>
+      <div class="qr-block"><img src="member-0248.svg" alt="Código QR del socio MV-0248"><div class="qr-copy"><small>QR DEL CLIENTE</small><strong>MV-0248</strong><p>Muéstralo al personal para registrar o corregir una visita.</p></div></div>
     </article>
     <p class="hint"><strong>Modo demostración:</strong> toca una vez cualquier círculo para añadir un punto. Tócalo dos veces seguidas para quitar un punto.</p>
     <div class="links"><a class="register" href="../#registro">Registrar nuevo cliente</a><a class="scanner" href="../personal/">Vista del personal · Escáner</a></div>
