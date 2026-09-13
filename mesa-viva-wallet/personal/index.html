@@ -31,7 +31,7 @@
     </section>
     <section class="panel" id="customer" hidden>
       <div class="panel-head"><h2>Cliente identificado</h2><button class="close" id="close-customer" type="button">Cerrar</button></div>
-      <article class="customer-card"><div class="customer-top"><div><p>TITULAR</p><h3 id="customer-name">Vincenzo</h3></div><strong class="member-label" id="member-label">MV-0248</strong></div><div class="count" id="count">0</div><p class="count-label" id="count-label">visitas registradas</p></article>
+      <article class="customer-card"><div class="customer-top"><div><p>TITULAR</p><h3 id="customer-name">Cliente</h3></div><strong class="member-label" id="member-label">MV-0248</strong></div><div class="count" id="count">0</div><p class="count-label" id="count-label">visitas registradas</p></article>
       <div class="actions"><button class="button" id="add" type="button">+ Añadir visita</button><button class="button remove" id="remove" type="button">− Corregir visita</button></div>
       <button class="button new-scan" id="new-scan" type="button">Escanear otra tarjeta</button>
     </section>
@@ -47,7 +47,7 @@
     function showScreen(id){screens.forEach(name=>document.querySelector(`#${name}`).hidden=name!==id);if(id!=="scanner")stopCamera();window.scrollTo({top:0,behavior:"smooth"})}
     function normalize(value){const match=String(value).toUpperCase().match(/MV[- ]?\d{4}/);return match?match[0].replace(" ","-"):""}
     function key(member){return `mesa-viva-${member}-visits-v2`}
-    function openMember(raw){const member=normalize(raw);if(!member){status.textContent="Código no reconocido. Usa un código como MV-0248.";return}activeMember=member;visits=Math.max(0,Math.min(10,Number(localStorage.getItem(key(member))||0)));document.querySelector("#member-label").textContent=member;document.querySelector("#customer-name").textContent=localStorage.getItem(`mesa-viva-${member}-name-v2`)||"Vincenzo";render();showScreen("customer")}
+    function openMember(raw){const member=normalize(raw);if(!member){status.textContent="Código no reconocido. Usa un código como MV-0248.";return}activeMember=member;visits=Math.max(0,Math.min(10,Number(localStorage.getItem(key(member))||0)));document.querySelector("#member-label").textContent=member;document.querySelector("#customer-name").textContent=sessionStorage.getItem(`mesa-viva-${member}-name-v2`)||"Cliente";render();showScreen("customer")}
     function render(){document.querySelector("#count").textContent=visits;document.querySelector("#count-label").textContent=visits===1?"visita registrada":"visitas registradas"}
     function save(delta){if(!activeMember)return;visits=Math.max(0,Math.min(10,visits+delta));localStorage.setItem(key(activeMember),String(visits));render();toast.textContent=delta>0?"Visita añadida":"Visita corregida";toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1400)}
     function decodeFrame(source,width,height){if(!window.jsQR||!width||!height)return "";const scale=Math.min(1,1400/Math.max(width,height));const w=Math.max(1,Math.round(width*scale)),h=Math.max(1,Math.round(height*scale));canvas.width=w;canvas.height=h;canvasContext.drawImage(source,0,0,w,h);const pixels=canvasContext.getImageData(0,0,w,h);const result=window.jsQR(pixels.data,w,h,{inversionAttempts:"attemptBoth"});return result?.data||""}
