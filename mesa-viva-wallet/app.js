@@ -86,8 +86,8 @@ document.querySelector("#register-form").addEventListener("submit", (event) => {
   };
   visits = 0;
   localStorage.setItem(visitsKey, "0");
-  localStorage.setItem(nameKey, (profile.name + " " + profile.surname).trim());
-  localStorage.setItem(profileKey, JSON.stringify(profile));
+  sessionStorage.setItem(nameKey, (profile.name + " " + profile.surname).trim());
+  sessionStorage.setItem(profileKey, JSON.stringify(profile));
   showConfirmed(profile);
   document.querySelector("#success").scrollIntoView({ behavior: "smooth", block: "start" });
 });
@@ -102,9 +102,9 @@ notificationButton.addEventListener("click", async () => {
   let permission = Notification.permission;
   if (permission === "default") permission = await Notification.requestPermission();
   if (permission === "granted") {
-    const profile = JSON.parse(localStorage.getItem(profileKey) || "{}");
+    const profile = JSON.parse(sessionStorage.getItem(profileKey) || "{}");
     profile.notifications = true;
-    localStorage.setItem(profileKey, JSON.stringify(profile));
+    sessionStorage.setItem(profileKey, JSON.stringify(profile));
     optinInput.checked = true;
     document.querySelector("#club-notice-status").textContent = "Avisos de recompensas y cumpleaños activados en este dispositivo.";
     output.textContent = "Notificaciones activadas correctamente.";
@@ -138,8 +138,10 @@ window.addEventListener("storage", (event) => {
   }
 });
 
-try {
-  const savedProfile = JSON.parse(localStorage.getItem(profileKey) || "null");
-  if (savedProfile && savedProfile.name && savedProfile.surname && savedProfile.email && savedProfile.birthday) showConfirmed(savedProfile);
-} catch {}
+[nameInput, surnameInput, emailInput, birthdayInput].forEach((field) => { field.value = ""; });
+optinInput.checked = false;
+cardName.textContent = "Invitado";
+document.querySelector("#register-form").hidden = false;
+document.querySelector("#success").hidden = true;
+document.querySelectorAll(".member-zone").forEach((section) => { section.hidden = true; });
 render();
